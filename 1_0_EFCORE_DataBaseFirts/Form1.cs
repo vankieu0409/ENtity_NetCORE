@@ -69,8 +69,6 @@ namespace _1_0_EFCORE_DataBaseFirts
             _SVACC.AddnewACC(acc);
             MessageBox.Show(" Thêm tài Khoản thành Công", "Thông báo Của UBND xã TUÂN CHÍNH");
             LoadDaTa();
-
-
         }
 
         private void btn_sua_Click(object sender, EventArgs e)
