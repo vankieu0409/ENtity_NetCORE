@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _1_0_EFCORE_DataBaseFirts.Context;
 using _1_0_EFCORE_DataBaseFirts.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace _1_0_EFCORE_DataBaseFirts
 {
@@ -47,7 +48,7 @@ namespace _1_0_EFCORE_DataBaseFirts
         // Lấy dữ liệu từ Table trong DB
         public void getListACCFromDB()
         {
-            _lstAccountsAdos = dbContext.AccountsAdos.ToList();
+            _lstAccountsAdos = dbContext.AccountsAdos.AsNoTracking().ToList();
         }
 
         public List<AccountsAdo> getListACC_Service()

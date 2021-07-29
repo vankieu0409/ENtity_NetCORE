@@ -11,6 +11,9 @@ using System.Windows.Forms;
 using _1_0_EFCORE_DataBaseFirts.Context;
 using _1_0_EFCORE_DataBaseFirts.Models;
 
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 namespace _1_0_EFCORE_DataBaseFirts
 {
     public partial class Form1 : Form
@@ -19,8 +22,10 @@ namespace _1_0_EFCORE_DataBaseFirts
         private List<AccountsAdo> _lstAccounts;
         private DatabaseContext aContext;
         private AccountsAdo acc;
+
         public Form1()
         {
+            acc = new AccountsAdo();
             _SVACC = new AccountService();
             aContext = new DatabaseContext();
             InitializeComponent();
@@ -39,7 +44,7 @@ namespace _1_0_EFCORE_DataBaseFirts
         void LoadDaTa()
         {
             _lstAccounts = new List<AccountsAdo>(); // khởi tạo lại
-            _lstAccounts = aContext.AccountsAdos.ToList(); // đổ dữ liệu vài lis Hiện tại
+            _lstAccounts = _SVACC.getListACC_Service(); // đổ dữ liệu vài lis Hiện tại
             //dếm thuộc tính có trong đối tượng
             Type type = typeof(AccountsAdo);
             int SLthuoctinh = type.GetProperties().Length;
@@ -74,6 +79,9 @@ namespace _1_0_EFCORE_DataBaseFirts
         private void btn_sua_Click(object sender, EventArgs e)
         {
             acc = new AccountsAdo();
+            //var index = _lstAccounts.FindIndex(c => c.Acc == tbx_tk.Text);
+            //var id = _lstAccounts[index].Id;
+            acc = (_SVACC.getListACC_Service().Where(i => i.Acc == tbx_tk.Text).FirstOrDefault());
             acc.Acc = tbx_tk.Text;
             acc.Pass = tbx_mk.Text;
             acc.Sex = rbtn_Nam.Checked ? 1 : 0;
@@ -82,6 +90,8 @@ namespace _1_0_EFCORE_DataBaseFirts
             _SVACC.UpdateAcc(acc);
             MessageBox.Show(" Sửa tài Khoản thành Công!", "Thông báo Của UBND xã TUÂN CHÍNH");
             LoadDaTa();
+
+
         }
 
         private void btn_xoa_Click(object sender, EventArgs e)
@@ -132,7 +142,7 @@ namespace _1_0_EFCORE_DataBaseFirts
         {
             _lstAccounts = new List<AccountsAdo>();
 
-            _lstAccounts=_SVACC.GetListACCByStartWith(textBox1.Text);
+            _lstAccounts = _SVACC.GetListACCByStartWith(textBox1.Text);
             Type type = typeof(AccountsAdo);
             int SLthuoctinh = type.GetProperties().Length;
             dataGridView1.ColumnCount = SLthuoctinh;
